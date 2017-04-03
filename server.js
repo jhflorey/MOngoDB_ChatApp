@@ -2,7 +2,7 @@ const mongo = require('mongodb').MongoClient;
 const client = require('socket.io').listen(3000).sockets;
 
 // connect to mongodb
-mongo.connect('mongodb://localhost/mongochat', (err, db) => {
+mongo.connect('mongodb://127.0.0.1/mongochat', (err, db) => {
 	if(err){
 		throw err;
 	}
@@ -27,14 +27,14 @@ mongo.connect('mongodb://localhost/mongochat', (err, db) => {
 			const name = data.name;
 			const message = data.message;
 
-			if(name == '' || message == '') {
+			if(name == '' || message == ''){
 				sendStatus('Please fill in the name and message');
 			} else {
 				chat.insert({name: name, message: message}, () => {
 					client.emit('output', [data]);
 
 					sendStatus({
-						message: 'message Sent',
+						message: 'Message Sent',
 						clear: true
 					});
 				});
